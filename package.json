@@ -4,12 +4,15 @@
   "version": "0.0.1",
   "main": "dist/index.js",
   "author": "d-kimuson",
-  "scripts": {},
+  "scripts": {
+    "typecheck:example": "tsc -p example --noEmit"
+  },
   "peerDependencies": {
     "vue": "3",
     "vuex": "4"
   },
   "devDependencies": {
+    "@babel/types": "^7.15.6",
     "typescript": "^4.4.3",
     "vue": "3",
     "vuex": "4"
