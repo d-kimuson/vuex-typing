@@ -1,0 +1,22 @@
+{
+  "name": "vuex-typing",
+  "description": "Type helpers for vuex.",
+  "version": "0.0.1",
+  "main": "dist/index.js",
+  "author": "d-kimuson",
+  "scripts": {},
+  "peerDependencies": {
+    "vue": "3",
+    "vuex": "4"
+  },
+  "devDependencies": {
+    "typescript": "^4.4.3",
+    "vue": "3",
+    "vuex": "4"
+  },
+  "license": "MIT",
+  "keywords": [
+    "vuex",
+    "typescript"
+  ]
+}
