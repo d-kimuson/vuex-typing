@@ -1,6 +1,10 @@
 import { InjectionKey } from "vue"
-import { createStore, useStore as baseUseStore } from "vuex"
-import { TypedStore } from "vuex-typing"
+import {
+  createStore,
+  useStore as baseUseStore,
+  mapGetters as baseMapGetters,
+} from "vuex"
+import { TypedStore, MapGetters } from "vuex-typing"
 
 import { counterModuleName, counterModule } from "./counter"
 import { textModuleName, textModule } from "./text"
@@ -24,3 +28,8 @@ export const key: InjectionKey<RootStore> = Symbol()
 export function useStore(): RootStore {
   return baseUseStore(key)
 }
+
+export const mapGetters = baseMapGetters as unknown as MapGetters<
+  RootStore["getters"],
+  ModuleType
+>

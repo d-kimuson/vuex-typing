@@ -130,7 +130,7 @@ export type TypedStore<
     [K in keyof Modules]: ReturnType<Modules[K]["state"]>
   },
   IntegratedGetters = IntegrateModuleOptions<{
-    [K in keyof Modules]: Modules[K]["getters"]
+    [K in keyof Modules]: NonNullable<Modules[K]["getters"]>
   }>,
   IntegratedActions = IntegrateModuleOptions<{
     [K in keyof Modules]: Modules[K]["actions"]
@@ -152,3 +152,32 @@ export type IntegrateModuleOptions<Modules extends Record<string, any>> =
       }
     }[keyof Modules]
   >
+
+type BaseModule = {
+  state: () => BaseState
+  getters?: Record<string, BaseGetter<any>>
+}
+
+export type ExtractGetters<
+  Getter,
+  Keys extends keyof Getter,
+  Selected = Pick<Getter, Keys>
+> = {
+  [K in keyof Selected]: () => Selected[K]
+}
+
+export type MapGetters<
+  RootGetters,
+  ModuleType extends {
+    [moduleName: string]: BaseModule
+  }
+> = <
+  ModuleName extends keyof ModuleType,
+  Keys extends keyof Getters,
+  RootKeys extends keyof RootGetters,
+  Getters = NonNullable<ModuleType[ModuleName]["getters"]>
+>(
+  ...args: [ModuleName, Keys[]] | [RootKeys[]]
+) => IsNever<Keys> extends true
+  ? ExtractGetters<RootGetters, RootKeys>
+  : Pick<Getters, Keys>
