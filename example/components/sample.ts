@@ -1,6 +1,6 @@
 import { defineComponent } from "vue"
 
-import { useStore, mapGetters } from "example/store"
+import { useStore, mapState, mapGetters } from "example/store"
 
 const sample = defineComponent({
   setup() {
@@ -12,6 +12,12 @@ const sample = defineComponent({
     }
   },
   computed: {
+    ...mapState({
+      rootVal: (state) => state.rootVal,
+    }),
+    ...mapState("text", {
+      txt: (state) => state.text,
+    }),
     ...mapGetters("counter", ["cnt"]),
     ...mapGetters(["counter/cnt"]),
   },
@@ -20,6 +26,10 @@ const sample = defineComponent({
       // mapGetters
       this["counter/cnt"] // :number
       this.cnt // :number
+
+      // mapState
+      this.rootVal // :string
+      this.txt // :string
     },
   },
 })

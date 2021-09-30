@@ -1,3 +1,4 @@
+import type { ComputedGetter } from "@vue/reactivity"
 import type { Store, StoreOptions, Dispatch, Module } from "vuex"
 import type { IsAny, IsNever, UnionToIntersection } from "./util"
 
@@ -181,3 +182,26 @@ export type MapGetters<
 ) => IsNever<Keys> extends true
   ? ExtractGetters<RootGetters, RootKeys>
   : Pick<Getters, Keys>
+
+export type ToStateRef<Getter extends Record<string, BaseGetter<any>>> = {
+  [K in keyof Getter]: ComputedGetter<ReturnType<Getter[K]>>
+}
+
+export type MapState<
+  RootState,
+  ModuleType extends {
+    [moduleName: string]: BaseModule
+  }
+> = <
+  ModuleName extends keyof ModuleType,
+  RootGetters extends Record<string, (state: RootState) => any>,
+  ModuleGetters extends {
+    [K: string]: (state: ReturnType<ModuleType[ModuleName]["state"]>) => any
+  },
+  IS_MODULE = string extends keyof RootGetters ? true : false
+>(
+  arg0: ModuleName | RootGetters,
+  ...args: [ModuleGetters?]
+) => IS_MODULE extends true
+  ? ToStateRef<ModuleGetters>
+  : ToStateRef<RootGetters>
