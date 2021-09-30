@@ -24,7 +24,7 @@ const sample = defineComponent({
   methods: {
     ...mapActions(["counter/INCREMENT"]),
     ...mapActions("counter", ["PLUS_N"]),
-    async test() {
+    async mapX() {
       // mapGetters
       this["counter/cnt"] // :number
       this.cnt // :number

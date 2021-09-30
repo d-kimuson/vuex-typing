@@ -41,6 +41,14 @@ export type CommitType<Mutation extends Record<string, any>> = <
     : never
 ) => void
 
+/**
+ * @example ReturnTypeAsPromise<() => Promise<string>) = Promise<string>
+ * @example ReturnTypeAsPromise<() => string) = Promise<string>
+ */
+type ReturnTypeAsPromise<F extends (...args: any[]) => any> = F extends (...args: any[]) => Promise<infer I>
+  ? Promise<I>
+  : Promise<ReturnType<F>>
+
 export type DispatchType<Action extends Record<string, any>> = <
   Type extends keyof Action
 >(
@@ -50,7 +58,7 @@ export type DispatchType<Action extends Record<string, any>> = <
       ? []
       : [I]
     : never
-) => ReturnType<Dispatch>
+) => ReturnTypeAsPromise<Action[Type]>
 
 export type ContextType<
   State extends BaseState,
@@ -94,8 +102,8 @@ export function defineModule<
     [K in keyof Actions]: Actions[K] extends (
       context: any,
       ...args: infer Args
-    ) => void
-      ? (context: any, ...args: Args) => void
+    ) => infer Ret
+      ? (context: any, ...args: Args) => Ret
       : never
   }
 } & Omit<Module<State, {}>, "state" | "getters" | "mutations" | "actions"> {
@@ -209,13 +217,13 @@ export type MapState<
   ? ToStateRef<ModuleGetters>
   : ToStateRef<RootGetters>
 
-export type ActionToMethod<Declare extends BaseAction, Ret = any> = (
+export type ActionToMethod<Declare extends BaseAction> = (
   ...args: ExtractPayload<Declare> extends infer I
     ? IsNever<I> extends true
       ? []
       : [I]
     : never
-) => Promise<Ret>
+) => ReturnTypeAsPromise<Declare>
 
 export type MapActions<
   ModuleType extends {
@@ -234,10 +242,9 @@ export type MapActions<
 ) => IsNever<Keys> extends true
   ? {
       [K in Extract<keyof RootActions, RootKeys>]: ActionToMethod<
-        RootActions[K],
-        undefined
+        RootActions[K]
       >
     }
   : {
-      [K in Extract<keyof Actions, Keys>]: ActionToMethod<Actions[K], undefined>
+      [K in Extract<keyof Actions, Keys>]: ActionToMethod<Actions[K]>
     }
