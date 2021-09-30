@@ -1,6 +1,6 @@
 import { defineComponent } from "vue"
 
-import { useStore, mapState, mapGetters, mapActions } from "example/store"
+import { useStore, mapState, mapGetters, mapActions } from "../store/util"
 
 const sample = defineComponent({
   setup() {
