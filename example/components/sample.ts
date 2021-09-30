@@ -37,6 +37,9 @@ const sample = defineComponent({
       this["counter/INCREMENT"]()
       this.PLUS_N(20)
     },
+    async fromStore() {
+      this.$store.dispatch("counter/PLUS_N_LOOP", 20)
+    },
   },
 })
 export default sample
