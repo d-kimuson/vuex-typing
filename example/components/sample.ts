@@ -8,6 +8,7 @@ const sample = defineComponent({
 
     return {
       counterInSetup: store.state.counter, // number
+      textInSetup: store.state.text, // string | undefined
     }
   },
 })
