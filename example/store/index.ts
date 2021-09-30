@@ -35,10 +35,7 @@ export function useStore(): RootStore {
   return baseUseStore(key)
 }
 
-export const mapGetters = baseMapGetters as unknown as MapGetters<
-  RootStore["getters"],
-  ModuleType
->
+export const mapGetters = baseMapGetters as unknown as MapGetters<ModuleType>
 
 export const mapState = baseMapState as unknown as MapState<
   RootStore["state"],

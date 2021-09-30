@@ -1,5 +1,5 @@
 import type { ComputedGetter } from "@vue/reactivity"
-import type { Store, StoreOptions, Dispatch, Module } from "vuex"
+import type { Store, Dispatch, Module } from "vuex"
 import type { IsAny, IsNever, UnionToIntersection } from "./util"
 
 type BaseState = Record<string, any>
@@ -159,7 +159,7 @@ type BaseModule = {
   getters?: Record<string, BaseGetter<any>>
 }
 
-export type ExtractGetters<
+export type ToGetterRef<
   Getter,
   Keys extends keyof Getter,
   Selected = Pick<Getter, Keys>
@@ -168,10 +168,12 @@ export type ExtractGetters<
 }
 
 export type MapGetters<
-  RootGetters,
   ModuleType extends {
     [moduleName: string]: BaseModule
-  }
+  },
+  RootGetters = IntegrateModuleOptions<{
+    [K in keyof ModuleType]: NonNullable<ModuleType[K]["getters"]>
+  }>
 > = <
   ModuleName extends keyof ModuleType,
   Keys extends keyof Getters,
@@ -180,7 +182,7 @@ export type MapGetters<
 >(
   ...args: [ModuleName, Keys[]] | [RootKeys[]]
 ) => IsNever<Keys> extends true
-  ? ExtractGetters<RootGetters, RootKeys>
+  ? ToGetterRef<RootGetters, RootKeys>
   : Pick<Getters, Keys>
 
 export type ToStateRef<Getter extends Record<string, BaseGetter<any>>> = {
