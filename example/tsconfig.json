@@ -5,7 +5,7 @@
     "lib": ["esnext", "dom"],
     "baseUrl": "..",
     "paths": {
-      "$/*": ["./src/*"]
+      "vuex-typing": ["./src/index.ts"]
     },
     "moduleResolution": "node",
     "strict": true,

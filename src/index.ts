@@ -1,8 +1,8 @@
-import type { StoreOptions, Dispatch, Module } from "vuex"
-import type { IsAny, IsNever } from "./util"
+import type { Store, StoreOptions, Dispatch, Module } from "vuex"
+import type { IsAny, IsNever, UnionToIntersection } from "./util"
 
 type BaseState = Record<string, any>
-type BaseGetter<State = BaseState> = (state: State, ...args: [any?]) => void
+type BaseGetter<State = BaseState> = (state: State, ...args: [any?]) => any
 type BaseMutation<State = BaseState> = (state: State, ...args: [any?]) => void
 type BaseAction<
   Context = ContextType<
@@ -81,7 +81,7 @@ export function defineModule<
     getters?: Getters
     mutations?: Mutations
   } & Omit<
-    StoreOptions<State>,
+    Module<State, {}>,
     "state" | "getters" | "mutations" | "namespaced" | "actions" | "modules"
   >,
   actions?: Actions
@@ -116,3 +116,39 @@ export type LocalDispatch<Action extends Record<string, BaseAction>> = <
       : [I]
     : never
 ) => Promise<any>
+
+export type TypedStore<
+  State,
+  Modules extends {
+    [moduleName: string]: {
+      state: () => Record<string, unknown>
+      getters?: Record<string, BaseGetter<any>>
+      actions?: Record<string, BaseAction>
+    }
+  },
+  IntegratedState = State & {
+    [K in keyof Modules]: ReturnType<Modules[K]["state"]>
+  },
+  IntegratedGetters = IntegrateModuleOptions<{
+    [K in keyof Modules]: Modules[K]["getters"]
+  }>,
+  IntegratedActions = IntegrateModuleOptions<{
+    [K in keyof Modules]: Modules[K]["actions"]
+  }>
+> = Omit<Store<IntegratedState>, "dispatch" | "getters"> & {
+  getters: GetterType<IntegratedGetters>
+  dispatch: DispatchType<IntegratedActions>
+}
+
+/**
+ * @example IntegratedModuleOptions<{ module1: { increment: T } }> = { 'module1/increment': T }
+ */
+export type IntegrateModuleOptions<Modules extends Record<string, any>> =
+  UnionToIntersection<
+    {
+      [ModuleName in keyof Modules]: {
+        // @ts-expect-error
+        [K in keyof Modules[ModuleName] as `${ModuleName}/${K}`]: Modules[ModuleName][K]
+      }
+    }[keyof Modules]
+  >

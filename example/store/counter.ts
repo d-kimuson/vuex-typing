@@ -1,4 +1,4 @@
-import { defineModule, LocalDispatch } from "$/index"
+import { defineModule, LocalDispatch } from "vuex-typing"
 
 export const counterModuleName = "counter"
 
@@ -37,6 +37,3 @@ export const counterModule = defineModule(
 )
 
 type CounterModule = typeof counterModule
-export type CounterModuleType = {
-  [counterModuleName]: CounterModule
-}
