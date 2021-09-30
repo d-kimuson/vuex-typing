@@ -3,6 +3,10 @@
     "target": "esnext",
     "module": "esnext",
     "lib": ["esnext", "dom"],
+    "baseUrl": "..",
+    "paths": {
+      "$/*": ["./src/*"]
+    },
     "moduleResolution": "node",
     "strict": true,
     "sourceMap": true,

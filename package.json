@@ -5,6 +5,8 @@
   "main": "dist/index.js",
   "author": "d-kimuson",
   "scripts": {
+    "build": "tsc -p .",
+    "typecheck": "tsc -p . --noEmit",
     "typecheck:example": "tsc -p example --noEmit"
   },
   "peerDependencies": {
