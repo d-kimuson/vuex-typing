@@ -1,6 +1,6 @@
 import { defineComponent } from "vue"
 
-import { useStore, mapState, mapGetters } from "example/store"
+import { useStore, mapState, mapGetters, mapActions } from "example/store"
 
 const sample = defineComponent({
   setup() {
@@ -22,7 +22,9 @@ const sample = defineComponent({
     ...mapGetters(["counter/cnt"]),
   },
   methods: {
-    test() {
+    ...mapActions(["counter/INCREMENT"]),
+    ...mapActions("counter", ["PLUS_N"]),
+    async test() {
       // mapGetters
       this["counter/cnt"] // :number
       this.cnt // :number
@@ -30,6 +32,10 @@ const sample = defineComponent({
       // mapState
       this.rootVal // :string
       this.txt // :string
+
+      // mapActions
+      this["counter/INCREMENT"]()
+      this.PLUS_N(20)
     },
   },
 })

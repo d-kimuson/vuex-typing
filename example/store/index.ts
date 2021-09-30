@@ -4,8 +4,9 @@ import {
   useStore as baseUseStore,
   mapGetters as baseMapGetters,
   mapState as baseMapState,
+  mapActions as baseMapActions,
 } from "vuex"
-import { TypedStore, MapState, MapGetters } from "vuex-typing"
+import { TypedStore, MapState, MapGetters, MapActions } from "vuex-typing"
 
 import { counterModuleName, counterModule } from "./counter"
 import { textModuleName, textModule } from "./text"
@@ -41,3 +42,5 @@ export const mapState = baseMapState as unknown as MapState<
   RootStore["state"],
   ModuleType
 >
+
+export const mapActions = baseMapActions as unknown as MapActions<ModuleType>

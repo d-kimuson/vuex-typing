@@ -157,6 +157,7 @@ export type IntegrateModuleOptions<Modules extends Record<string, any>> =
 type BaseModule = {
   state: () => BaseState
   getters?: Record<string, BaseGetter<any>>
+  actions?: Record<string, BaseAction>
 }
 
 export type ToGetterRef<
@@ -207,3 +208,36 @@ export type MapState<
 ) => IS_MODULE extends true
   ? ToStateRef<ModuleGetters>
   : ToStateRef<RootGetters>
+
+export type ActionToMethod<Declare extends BaseAction, Ret = any> = (
+  ...args: ExtractPayload<Declare> extends infer I
+    ? IsNever<I> extends true
+      ? []
+      : [I]
+    : never
+) => Promise<Ret>
+
+export type MapActions<
+  ModuleType extends {
+    [moduleName: string]: BaseModule
+  },
+  RootActions = IntegrateModuleOptions<{
+    [K in keyof ModuleType]: ModuleType[K]["actions"]
+  }>
+> = <
+  ModuleName extends keyof ModuleType,
+  Keys extends keyof Actions,
+  RootKeys extends keyof RootActions,
+  Actions = NonNullable<ModuleType[ModuleName]["actions"]>
+>(
+  ...args: [ModuleName, Keys[]] | [RootKeys[]]
+) => IsNever<Keys> extends true
+  ? {
+      [K in Extract<keyof RootActions, RootKeys>]: ActionToMethod<
+        RootActions[K],
+        undefined
+      >
+    }
+  : {
+      [K in Extract<keyof Actions, Keys>]: ActionToMethod<Actions[K], undefined>
+    }
