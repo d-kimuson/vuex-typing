@@ -3,11 +3,20 @@
   "description": "Type helpers for vuex.",
   "version": "0.0.1",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "author": "d-kimuson",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/d-kimuson/vuex-typing.git"
+  },
+  "bugs": {
+    "url": "https://github.com/d-kimuson/vuex-typing/issues"
+  },
   "scripts": {
     "build": "tsc -p .",
     "typecheck": "tsc -p . --noEmit",
-    "typecheck:example": "tsc -p example --noEmit"
+    "typecheck:example": "tsc -p example --noEmit",
+    "prepare": "yarn build"
   },
   "peerDependencies": {
     "vue": "3",
