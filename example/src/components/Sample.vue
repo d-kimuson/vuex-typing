@@ -1,3 +1,8 @@
+<template>
+  <div>hello</div>
+</template>
+
+<script lang="ts">
 import { defineComponent } from "vue"
 
 import { useStore, mapState, mapGetters, mapActions } from "../store/util"
@@ -43,3 +48,4 @@ const sample = defineComponent({
   },
 })
 export default sample
+</script>

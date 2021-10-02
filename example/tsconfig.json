@@ -1,16 +1,19 @@
 {
   "compilerOptions": {
     "target": "esnext",
+    "useDefineForClassFields": true,
     "module": "esnext",
-    "lib": ["esnext", "dom"],
-    "baseUrl": "..",
-    "paths": {
-      "vuex-typing": ["./src/index.ts"]
-    },
     "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+      "vuex-typing": ["../src/index.ts"],
+    },
     "strict": true,
+    "jsx": "preserve",
     "sourceMap": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
+    "skipLibCheck": true,
+    "lib": ["esnext", "dom"]
   },
 }

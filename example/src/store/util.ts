@@ -6,7 +6,7 @@ import {
   mapActions as baseMapActions,
 } from "vuex"
 import { MapState, MapGetters, MapActions } from "vuex-typing"
-import type { RootStore, ModuleType } from "./"
+import type { RootStore, ModuleType } from "."
 
 export const key: InjectionKey<RootStore> = Symbol()
 

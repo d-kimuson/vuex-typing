@@ -20,7 +20,7 @@ export const counterModule = defineModule(
     },
   },
   {
-    INCREMENT: ({ commit }) => {
+    INCREMENT: ({ commit }): void => {
       commit("increment")
     },
     PLUS_N: ({ commit }, n: number) => {
