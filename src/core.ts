@@ -71,16 +71,16 @@ type ReturnTypeAsPromise<F extends (...args: any[]) => any> = F extends (
   ? Promise<I>
   : Promise<ReturnType<F>>
 
-export type LocalDispatch<Action extends Record<string, BaseAction>> = <
-  Key extends keyof Action
+export type LocalDispatch<Actions extends Record<string, BaseAction>> = <
+  Key extends keyof Actions
 >(
   key: Key,
-  ...args: ExtractPayload<Action[Key]> extends infer I
+  ...args: ExtractPayload<Actions[Key]> extends infer I
     ? IsNever<I> extends true
       ? []
       : [I]
     : never
-) => Promise<any>
+) => ReturnTypeAsPromise<Actions[Key]>
 
 export type DispatchType<Action extends Record<string, any>> = <
   Type extends keyof Action
