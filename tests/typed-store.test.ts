@@ -1,25 +1,6 @@
 import { expectType } from "tsd"
-import { createStore } from "vuex"
-import type { TypedStore } from "vuex-typing"
-import { counterModuleName, counterModule } from "./data/counter-module"
-
-export type RootState = {
-  rootVal: string
-}
-export type ModuleType = {
-  [counterModuleName]: typeof counterModule
-}
-
-export type RootStore = TypedStore<RootState, ModuleType>
-
-export const store = createStore<RootState>({
-  state: {
-    rootVal: "ok",
-  },
-  modules: {
-    [counterModuleName]: counterModule,
-  },
-})
+import type { RootStore } from "./data/store";
+import { store } from "./data/store"
 
 describe("typed store", () => {
   it("types for state, getters", () => {
