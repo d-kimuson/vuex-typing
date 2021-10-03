@@ -3,6 +3,10 @@
     "target": "esnext",
     "module": "esnext",
     "lib": ["dom", "esnext"],
+    "baseUrl": "./",
+    "paths": {
+      "vuex-typing": ["./src/index.ts"]
+    },
     "outDir": "dist",
     "strict": true,
     "moduleResolution": "node",

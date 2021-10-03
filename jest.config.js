@@ -30,9 +30,9 @@ module.exports = {
     },
   },
   transform: {
-    "^.+\\.(t|j)s$": "esbuild-jest",
+    "^.+\\.(t|j)s$": "ts-jest",
   },
-  moduleNameMapper: pathsToModuleNameMapper(options.paths ?? {}, {
-    prefix: "<rootDir>/src",
+  moduleNameMapper: pathsToModuleNameMapper(options.paths, {
+    prefix: "<rootDir>",
   }),
 }
