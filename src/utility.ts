@@ -1,6 +1,6 @@
-import type { ComputedGetter } from "@vue/reactivity"
 import type { BaseGetter, BaseModule, ActionToMethod } from "./core"
 import type { IsNever, UnionToIntersection } from "./type-utils"
+import type { ComputedGetter } from "@vue/reactivity"
 
 /**
  * @example IntegratedModuleOptions<{ module1: { increment: T } }> = { 'module1/increment': T }

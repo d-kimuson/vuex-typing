@@ -1,7 +1,6 @@
-import type { Store } from "vuex"
-
 import type { BaseGetter, BaseAction, GetterType, DispatchType } from "./core"
 import type { IntegrateModuleOptions } from "./utility"
+import type { Store } from "vuex"
 
 export type TypedStore<
   State,

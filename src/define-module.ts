@@ -1,5 +1,3 @@
-import type { Module } from "vuex"
-
 import type {
   BaseState,
   BaseGetter,
@@ -7,6 +5,7 @@ import type {
   BaseAction,
   ContextType,
 } from "./core"
+import type { Module } from "vuex"
 
 export function defineModule<
   State extends BaseState,
@@ -15,7 +14,10 @@ export function defineModule<
   Actions = Record<
     string,
     BaseAction<
-      Omit<ContextType<State, Getters, Mutations, {}>, "dispatch"> & {
+      Omit<
+        ContextType<State, Getters, Mutations, Record<string, unknown>>,
+        "dispatch"
+      > & {
         dispatch: (key: string, ...args: [any?]) => Promise<any>
       }
     >
@@ -26,7 +28,7 @@ export function defineModule<
     getters?: Getters
     mutations?: Mutations
   } & Omit<
-    Module<State, {}>,
+    Module<State, Record<string, unknown>>,
     "state" | "getters" | "mutations" | "namespaced" | "actions" | "modules"
   >,
   actions?: Actions
@@ -42,7 +44,10 @@ export function defineModule<
       ? (context: any, ...args: Args) => Ret
       : never
   }
-} & Omit<Module<State, {}>, "state" | "getters" | "mutations" | "actions"> {
+} & Omit<
+  Module<State, Record<string, unknown>>,
+  "state" | "getters" | "mutations" | "actions"
+> {
   return {
     ...module,
     namespaced: true,

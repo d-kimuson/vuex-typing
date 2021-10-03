@@ -6,7 +6,7 @@
     "moduleResolution": "node",
     "baseUrl": ".",
     "paths": {
-      "vuex-typing": ["../src/index.ts"],
+      "vuex-typing": ["../src/index.ts"]
     },
     "strict": true,
     "jsx": "preserve",
@@ -15,5 +15,5 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "lib": ["esnext", "dom"]
-  },
+  }
 }
