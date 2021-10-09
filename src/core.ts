@@ -3,8 +3,10 @@ import type { IsAny, IsNever } from "./type-utils"
 export type BaseState = Record<string, any>
 export type BaseGetter<State = BaseState> = (
   state: State,
-  ...args: [any?]
-) => any
+  getters: unknown,
+  rootState: unknown,
+  rootGetters: unknown
+) => unknown
 export type BaseMutation<State = BaseState> = (
   state: State,
   ...args: [any?]
@@ -41,6 +43,15 @@ export type GetterType<Mutation extends Record<string, any>> = {
       ? never
       : K
     : never]: ReturnType<Mutation[K]>
+}
+
+export type LocalGetters<
+  T extends Record<string, (...args: any[]) => any> | undefined,
+  ExactT = NonNullable<T>
+> = {
+  [K in keyof ExactT]: ExactT[K] extends (...args: any[]) => any
+    ? ReturnType<ExactT[K]>
+    : never
 }
 
 export type ExtractPayload<T extends (stateOrContext: any) => void> =
