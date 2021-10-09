@@ -26,7 +26,9 @@ describe("mapState", () => {
 describe("mapGetters", () => {
   it("direct", () => {
     const getters = mapGetters(["counter/cnt"])
-    // FIX: When the number of modules is one, the type is wrong.
+    expectType<(state: RootStore["state"]["counter"]) => number>(
+      getters["counter/cnt"]
+    )
   })
 
   it("module", () => {
@@ -38,8 +40,8 @@ describe("mapGetters", () => {
 
 describe("mapActions", () => {
   it("direct", () => {
-    // FIX: When the number of modules is one, the type is wrong.
-    const actions = mapActions(["counter/INCREMENT"])
+    const actions = mapActions(["counter/PLUS_N"])
+    expectType<Promise<void>>(actions["counter/PLUS_N"](20))
   })
 
   it("module", () => {
