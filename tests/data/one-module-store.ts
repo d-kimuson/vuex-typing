@@ -1,12 +1,31 @@
 import {
+  createStore,
   useStore as baseUseStore,
   mapGetters as baseMapGetters,
   mapState as baseMapState,
   mapActions as baseMapActions,
 } from "vuex"
-import type { RootStore, ModuleType } from "./store"
 import type { InjectionKey } from "vue"
-import type { MapState, MapGetters, MapActions } from "vuex-typing"
+import type { TypedStore, MapState, MapGetters, MapActions } from "vuex-typing"
+import { counterModuleName, counterModule } from "./modules/counter"
+
+export type RootState = {
+  rootVal: string
+}
+export type ModuleType = {
+  [counterModuleName]: typeof counterModule
+}
+
+export type RootStore = TypedStore<RootState, ModuleType>
+
+export const store = createStore<RootState>({
+  state: {
+    rootVal: "ok",
+  },
+  modules: {
+    [counterModuleName]: counterModule,
+  },
+})
 
 export const key: InjectionKey<RootStore> = Symbol()
 

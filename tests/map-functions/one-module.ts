@@ -1,6 +1,6 @@
 import { expectType } from "tsd"
-import type { RootStore, ModuleType } from "./data/store"
-import { mapState, mapGetters, mapActions } from "./data/map-functions"
+import type { RootStore, ModuleType } from "../data/one-module-store"
+import { mapState, mapGetters, mapActions } from "../data/one-module-store"
 
 describe("mapState", () => {
   it("direct", () => {

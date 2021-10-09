@@ -1,6 +1,6 @@
 import { expectType } from "tsd"
-import type { RootStore } from "./data/store";
-import { store } from "./data/store"
+import type { RootStore } from "./data/one-module-store"
+import { store } from "./data/one-module-store"
 
 describe("typed store", () => {
   it("types for state, getters", () => {
