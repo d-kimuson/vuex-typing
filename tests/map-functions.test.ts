@@ -41,7 +41,9 @@ describe("mapGetters", () => {
 describe("mapActions", () => {
   it("direct", () => {
     const actions = mapActions(["counter/PLUS_N"])
-    expectType<Promise<void>>(actions["counter/PLUS_N"](20))
+    expectType<(context: any, payload: number) => Promise<void>>(
+      actions["counter/PLUS_N"]
+    )
   })
 
   it("module", () => {
