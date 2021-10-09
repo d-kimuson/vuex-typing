@@ -20,7 +20,7 @@ export type ToGetterRef<
   Keys extends keyof Getter,
   Selected = Pick<Getter, Keys>
 > = {
-  [K in keyof Selected]: () => Selected[K]
+  [K in keyof Selected]: Selected[K]
 }
 
 export type MapGetters<
@@ -31,15 +31,25 @@ export type MapGetters<
     [K in keyof ModuleType]: NonNullable<ModuleType[K]["getters"]>
   }>
 > = <
-  ModuleName extends keyof ModuleType,
-  Keys extends keyof Getters,
-  RootKeys extends keyof RootGetters,
-  Getters = NonNullable<ModuleType[ModuleName]["getters"]>
+  Arg1 extends keyof ModuleType | (keyof RootGetters)[],
+  Arg2 extends IsNever<ModuleName> extends true ? never : (keyof Getters)[],
+  ModuleName = Arg1 extends keyof ModuleType ? Arg1 : never,
+  Getters = ModuleName extends keyof ModuleType
+    ? NonNullable<ModuleType[ModuleName]["getters"]>
+    : never
 >(
-  ...args: [ModuleName, Keys[]] | [RootKeys[]]
-) => IsNever<Keys> extends true
-  ? ToGetterRef<RootGetters, RootKeys>
-  : Pick<Getters, Keys>
+  ...args: [Arg1, Arg2?]
+) => IsNever<ModuleName> extends true
+  ? Arg1 extends Array<infer RootKeys>
+    ? RootKeys extends keyof RootGetters
+      ? ToGetterRef<RootGetters, RootKeys>
+      : never
+    : never
+  : Arg2 extends Array<infer Keys>
+  ? Keys extends keyof Getters
+    ? Pick<Getters, Keys>
+    : never
+  : never
 
 export type ToStateRef<Getter extends Record<string, BaseGetter<any>>> = {
   [K in keyof Getter]: ComputedGetter<ReturnType<Getter[K]>>
@@ -72,18 +82,24 @@ export type MapActions<
     [K in keyof ModuleType]: ModuleType[K]["actions"]
   }>
 > = <
-  ModuleName extends keyof ModuleType,
-  Keys extends keyof Actions,
-  RootKeys extends keyof RootActions,
-  Actions = NonNullable<ModuleType[ModuleName]["actions"]>
+  Arg1 extends keyof ModuleType | (keyof RootActions)[],
+  Arg2 extends IsNever<ModuleName> extends true ? never : (keyof Actions)[],
+  ModuleName = Arg1 extends keyof ModuleType ? Arg1 : never,
+  Actions = ModuleName extends keyof ModuleType
+    ? NonNullable<ModuleType[ModuleName]["actions"]>
+    : never
 >(
-  ...args: [ModuleName, Keys[]] | [RootKeys[]]
-) => IsNever<Keys> extends true
+  ...args: [Arg1, Arg2?]
+) => IsNever<ModuleName> extends true
   ? {
-      [K in Extract<keyof RootActions, RootKeys>]: ActionToMethod<
-        RootActions[K]
-      >
+      [K in Extract<
+        keyof RootActions,
+        Arg1 extends Array<infer I> ? I : never
+      >]: ActionToMethod<RootActions[K]>
     }
   : {
-      [K in Extract<keyof Actions, Keys>]: ActionToMethod<Actions[K]>
+      [K in Extract<
+        keyof Actions,
+        Arg2 extends Array<infer I> ? I : never
+      >]: ActionToMethod<Actions[K]>
     }
