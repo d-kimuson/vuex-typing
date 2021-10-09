@@ -1,4 +1,5 @@
-import { defineModule, LocalDispatch } from "vuex-typing"
+import { defineModule } from "vuex-typing"
+import type { LocalDispatch } from "vuex-typing";
 
 export const counterModuleName = "counter"
 
@@ -9,6 +10,7 @@ export const counterModule = defineModule(
     }),
     getters: {
       cnt: (state) => state.count,
+      cnt2: (state) => state.count,
     },
     mutations: {
       increment: (state) => {

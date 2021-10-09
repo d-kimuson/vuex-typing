@@ -23,8 +23,8 @@ const sample = defineComponent({
     ...mapState("text", {
       txt: (state) => state.text,
     }),
-    ...mapGetters("counter", ["cnt"]),
-    ...mapGetters(["counter/cnt"]),
+    ...mapGetters("counter", ["cnt", "cnt2"]),
+    ...mapGetters(["counter/cnt", "counter/cnt2"]),
   },
   methods: {
     ...mapActions(["counter/INCREMENT"]),
@@ -33,6 +33,7 @@ const sample = defineComponent({
       // mapGetters
       this["counter/cnt"] // :number
       this.cnt // :number
+      this.cnt2
 
       // mapState
       this.rootVal // :string

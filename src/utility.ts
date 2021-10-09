@@ -36,20 +36,17 @@ export type MapGetters<
   ModuleName = Arg1 extends keyof ModuleType ? Arg1 : never,
   Getters = ModuleName extends keyof ModuleType
     ? NonNullable<ModuleType[ModuleName]["getters"]>
-    : never
+    : never,
+  LocalKeys = Arg2 extends Array<infer Keys> ? Keys : never,
+  RootKeys = Arg1 extends Array<infer Keys> ? Keys : never
 >(
   ...args: [Arg1, Arg2?]
 ) => IsNever<ModuleName> extends true
-  ? Arg1 extends Array<infer RootKeys>
-    ? RootKeys extends keyof RootGetters
-      ? ToGetterRef<RootGetters, RootKeys>
-      : never
-    : never
-  : Arg2 extends Array<infer Keys>
-  ? Keys extends keyof Getters
-    ? Pick<Getters, Keys>
-    : never
-  : never
+  ? ToGetterRef<
+      RootGetters,
+      RootKeys extends keyof RootGetters ? RootKeys : never
+    >
+  : Pick<Getters, LocalKeys extends keyof Getters ? LocalKeys : never>
 
 export type ToStateRef<Getter extends Record<string, BaseGetter<any>>> = {
   [K in keyof Getter]: ComputedGetter<ReturnType<Getter[K]>>
