@@ -1,5 +1,11 @@
 <template>
-  <div>hello</div>
+  <div>cnt: {{cnt}}</div>
+  <div>cnt2: {{cnt2}}</div>
+  <div>rootVal: {{rootVal}}</div>
+  <div>txt: {{txt}}</div>
+
+  <button @click="increment">INCREMENT</button>
+  <button @click="PLUS_N(20)">PLUS_N(20)</button>
 </template>
 
 <script lang="ts">
@@ -7,7 +13,7 @@ import { defineComponent } from "vue"
 
 import { useStore, mapState, mapGetters, mapActions } from "../store/util"
 
-const sample = defineComponent({
+const Sample = defineComponent({
   setup() {
     const store = useStore()
 
@@ -33,7 +39,7 @@ const sample = defineComponent({
       // mapGetters
       this["counter/cnt"] // :number
       this.cnt // :number
-      this.cnt2
+      this.cnt2 // : number
 
       // mapState
       this.rootVal // :string
@@ -46,7 +52,10 @@ const sample = defineComponent({
     async fromStore() {
       this.$store.dispatch("counter/PLUS_N_LOOP", 20)
     },
+    increment() {
+      this["counter/INCREMENT"]()
+    }
   },
 })
-export default sample
+export default Sample
 </script>

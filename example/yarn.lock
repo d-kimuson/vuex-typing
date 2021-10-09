@@ -876,6 +876,9 @@ vue@^3.2.16:
     "@vue/server-renderer" "3.2.19"
     "@vue/shared" "3.2.19"
 
+vuex-typing@../:
+  version "4.0.0"
+
 vuex@^4.0.2:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/vuex/-/vuex-4.0.2.tgz#f896dbd5bf2a0e963f00c67e9b610de749ccacc9"
