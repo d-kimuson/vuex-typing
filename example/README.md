@@ -1,5 +1,26 @@
 # Vue 3 + Typescript + Vite
 
+## Start Try (Opt1)
+
+```bash
+yarn install
+# replace npm package
+yarn remove vuex-typing
+yarn add vuex-typing
+yarn dev
+```
+
+## Start Try (Opt2)
+
+```bash
+# build local package and install
+cd <project_root>
+yarn build
+cd example
+yarn install
+yarn dev
+```
+
 This template should help get you started developing with Vue 3 and Typescript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
 
 ## Recommended IDE Setup
