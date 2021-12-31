@@ -1,5 +1,5 @@
 import { expectType } from "tsd"
-import type { LocalDispatch } from "vuex-typing";
+import type { LocalDispatch } from "vuex-typing"
 import { defineModule } from "vuex-typing"
 
 describe("basic options", () => {

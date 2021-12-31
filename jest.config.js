@@ -23,6 +23,7 @@ const { options } = parseJsonConfigFileContent(
 
 module.exports = {
   roots: ["<rootDir>"],
+  testEnvironment: "jsdom",
   testMatch: ["**/?(*.)+(spec|test).+(ts|tsx|js)"],
   globals: {
     "ts-jest": {

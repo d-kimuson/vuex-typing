@@ -1,6 +1,5 @@
 import { createStore } from "vuex"
-import { TypedStore } from "vuex-typing"
-
+import type { TypedStore } from "vuex-typing"
 import { counterModuleName, counterModule } from "./modules/counter"
 import { textModuleName, textModule } from "./modules/text"
 
