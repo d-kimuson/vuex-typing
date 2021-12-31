@@ -1,4 +1,5 @@
 import { createStore } from "vuex"
+import createPersistedState from "vuex-persistedstate"
 import type { TypedStore } from "vuex-typing"
 import { counterModuleName, counterModule } from "./modules/counter"
 import { textModuleName, textModule } from "./modules/text"
@@ -21,4 +22,5 @@ export const store = createStore<RootState>({
     [counterModuleName]: counterModule,
     [textModuleName]: textModule,
   },
+  plugins: [createPersistedState()],
 })
